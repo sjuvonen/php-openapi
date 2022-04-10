@@ -18,3 +18,5 @@ Additionally provided is a basic set of tools for generating documentation from 
 ## Design
 
 Very few convenience hacks are provided. The structure of required PHP attributes follows closely the original structure of the OpenAPI documentation. All class properties and methods are fully type-hinted, which makes it easier to understand how to compile a documentation node.
+
+The project aims to provide an OpenAPI documentation system that is extremely flexible and pluggable with well-defined extension points.
