@@ -1,0 +1,21 @@
+{
+    "name": "sjuvonen/php-openapi",
+    "description": "Generate API documentation for your PHP 8.1+ app using the OpenAPI 3.0 specification.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Juvonet\\OpenApi\\": "src/Juvonet/OpenApi",
+            "Juvonet\\Stdlib\\": "src/Juvonet/Stdlib"
+        }
+    },
+    "authors": [
+        {
+            "name": "Samu Juvonen",
+            "email": "samu.juvonen@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1.0"
+    }
+}
