@@ -2,6 +2,7 @@
 
 namespace Juvonet\OpenApi\Documentation;
 
+use Juvonet\OpenApi\Documentation\Container\XData;
 use Juvonet\OpenApi\Documentation\Enum\ExplodeStyle;
 use Juvonet\OpenApi\Documentation\Extra\Ref;
 
@@ -32,7 +33,10 @@ final class Parameter
          */
         public Ref|string|null $from = null,
         ExplodeStyle|string|null $style = null,
+        array $x = [],
     ) {
+        $this->x = new XData($x);
+
         if (is_string($style)) {
             $this->style = ExplodeStyle::from($style);
         } elseif ($style instanceof ExplodeStyle) {
