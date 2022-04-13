@@ -6,7 +6,7 @@ final class Ref
 {
     public function __construct(
         public readonly ?string $class = null,
-        public readonly ?array $context = null,
+        public readonly ?array $options = null,
     ) {
     }
 
@@ -15,14 +15,14 @@ final class Ref
      */
     public function hash(): string
     {
-        if ($this->context) {
-            $context = $this->context;
+        if ($this->options) {
+            $options = $this->options;
 
-            ksort($context);
+            ksort($options);
 
-            $context = serialize($context);
+            $options = serialize($options);
         }
 
-        return sha1($this->class . ($context ?? ''));
+        return sha1($this->class . ($options ?? ''));
     }
 }

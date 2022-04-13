@@ -73,6 +73,9 @@ final class Schema extends AbstractSchema
      */
     public function hash(): string
     {
-        return sha1($this->context->class);
+        $x = iterator_to_array($this->x);
+        ksort($x);
+
+        return sha1($this->context->class . ($x ? serialize($x) : ''));
     }
 }

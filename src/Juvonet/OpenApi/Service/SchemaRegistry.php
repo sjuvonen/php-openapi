@@ -91,8 +91,11 @@ final class SchemaRegistry implements SchemaRegistryInterface
 
     private function makeSchema(Ref $ref): Schema
     {
-        $schema = new Schema();
-        $schema->schema = Utils::identifierFromClassName($ref->class);
+        $schema = new Schema(
+            schema: Utils::identifierFromClassName($ref->class),
+            x: $ref->options ?? []
+        );
+
         $schema->setContext(new Context(
             file: (new \ReflectionClass($ref->class))->getFileName(),
             class: $ref->class
