@@ -11,7 +11,7 @@ final class PathItems
     {
     }
 
-    public function extractOperations(PathItem|iterable $pathItems): iterable
+    public static function extractOperations(PathItem|iterable $pathItems): iterable
     {
         if ($pathItems instanceof PathItem) {
             $pathItems = [$pathItems];
