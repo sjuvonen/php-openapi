@@ -14,7 +14,6 @@ class TagsOperationDescriber implements OperationDescriberInterface
 
     public function supports(Operation $operation): bool
     {
-        return false;
         return !count($operation->tags);
     }
 
