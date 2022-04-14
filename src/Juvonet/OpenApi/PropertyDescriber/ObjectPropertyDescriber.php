@@ -41,7 +41,7 @@ class ObjectPropertyDescriber implements PropertyDescriberInterface
     {
         if ($property->context->property) {
             $rprop = new \ReflectionProperty($property->context->class, $property->context->property);
-            $className = $rprop->getType()?->getName();
+            $className = $rprop->getType()?->getName() ?? '';
 
             if (class_exists($className) || interface_exists($className)) {
                 return $className;
@@ -50,7 +50,7 @@ class ObjectPropertyDescriber implements PropertyDescriberInterface
 
         if ($property->context->method) {
             $rmethod = new \ReflectionMethod($property->context->class, $property->context->method);
-            $className = $rmethod->getReturnType()?->getName();
+            $className = $rmethod->getReturnType()?->getName() ?? '';
 
             if (class_exists($className) || interface_exists($className)) {
                 return $className;
