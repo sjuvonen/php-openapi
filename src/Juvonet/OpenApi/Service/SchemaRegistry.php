@@ -26,7 +26,7 @@ final class SchemaRegistry implements SchemaRegistryInterface
 
             $path = $this->resolvePath($schema);
             $this->byPath[$path] = $schema;
-        } else {
+        } elseif ($this->byHash[$hash] !== $schema) {
             throw new \OverflowException("Schema for class {$schema->context->class} is already registered.");
         }
     }
