@@ -18,6 +18,7 @@ class ClassDocumentationLoader implements LoaderInterface
     public function __construct(
         private \Juvonet\OpenApi\DiscoveryInterface $discovery,
         private array $paths = [],
+        private array $exclude = [],
     ) {
     }
 
@@ -34,20 +35,24 @@ class ClassDocumentationLoader implements LoaderInterface
 
     private function supports(string $filePath): bool
     {
-        return substr($filePath, -4) === '.php';
+        if (substr($filePath, -4) !== '.php') {
+            return false;
+        }
+
+        foreach ($this->exclude as $prefix) {
+            if (strpos($filePath, $prefix) === 0) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private function loadFile(string $filePath, OpenApi $api): void
     {
-        // print "LOAD {$filePath}\n";
-
         foreach ($this->extractDeclaredClasses($filePath) as $className) {
-            // print "ANALYZE {$className}\n";
-
             foreach ($this->extractAttributesFromClass($className) as $attribute) {
                 $aname = $attribute->getName();
-                // print "LOAD {$filePath}\n";
-                // print "\tATTRIBUTE {$aname}\n";
 
                 $this->addAttribute($api, $attribute, new Context(
                     file: $filePath,
