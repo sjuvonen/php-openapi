@@ -20,7 +20,7 @@ class Operation extends DiscoverableAttribute
     private const HTTP_VERB_ATTRIBUTE = 'Juvonet\OpenApi\Documentation\Meta\HttpMethod';
 
     public function __construct(
-        public readonly string $path,
+        public string $path,
         public ?string $method = null,
         public ?string $operationId = null,
         public ?string $summary = null,

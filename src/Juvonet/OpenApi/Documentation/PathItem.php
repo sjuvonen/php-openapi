@@ -10,7 +10,7 @@ final class PathItem
      *   of Swagger UI.}}
      */
     public function __construct(
-        public readonly string $path,
+        public string $path,
         public ?string $summary = null,
         public ?string $description = null,
         public ?Operation $get = null,
