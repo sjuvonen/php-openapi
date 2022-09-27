@@ -6,13 +6,16 @@ use Juvonet\OpenApi\Documentation\Extra\Ref;
 use Juvonet\OpenApi\Documentation\OpenApi;
 use Juvonet\OpenApi\Documentation\Schema;
 use Juvonet\Stdlib\Iterator\RecursiveObjectIterator;
+use WeakMap;
 
 class Dereference
 {
     private array $counter;
     private array $discoveredSchemas;
+    private WeakMap $consumed;
 
     public function __construct(
+        private \Juvonet\OpenApi\DereferencerInterface $dereferencer,
         private \Juvonet\OpenApi\SchemaDescriberInterface $schemaDescriber,
         private \Juvonet\OpenApi\SchemaRegistryInterface $schemaRegistry,
     ) {
@@ -20,6 +23,7 @@ class Dereference
 
     public function __invoke(OpenApi $api): void
     {
+        $this->consumed = new WeakMap();
         $this->discoveredSchemas = [];
 
         $this->processObject($api, $api);
@@ -65,16 +69,17 @@ class Dereference
 
     private function replaceRefs(OpenApi $api, array $parents): void
     {
-        try {
-            $api->components->schemas->add($parents[0]->ref);
+        $schema = $this->dereferencer->dereference($parents[0]->ref);
 
-            $this->discoveredSchemas[] = $this->schemaRegistry->getByRef($parents[0]->ref);
-        } catch (\OverflowException) {
-            // Will throw when schema is already registered; pass.
+        if (!$this->consumed->offsetExists($schema)) {
+            $this->consumed[$schema] = true;
+            $this->discoveredSchemas[] = $schema;
+
+            $api->components->schemas->add($schema);
         }
 
         foreach ($parents as $parent) {
-            $parent->ref = $this->schemaRegistry->resolvePath($parent->ref);
+            $parent->ref = $this->schemaRegistry->resolvePath($schema);
         }
     }
 }
