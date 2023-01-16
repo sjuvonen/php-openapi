@@ -101,6 +101,14 @@ final class SchemaRegistry implements SchemaRegistryInterface
             class: $ref->class
         ));
 
+        for ($i = 0; isset($this->byPath[$this->resolvePath($schema)]); $i++) {
+            if ($i) {
+                $schema->schema = sprintf('%s-%d', substr($schema->schema, 0, strlen($i)), $i + 1);
+            } else {
+                $schema->schema = "{$schema->schema}-1";
+            }
+        }
+
         return $schema;
     }
 }
